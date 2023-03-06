@@ -1,0 +1,157 @@
+docker exec -it ad9bfa54174e cat /var/jenkins_home/secrets/initialAdminPassword
+docker container ls -a
+
+
+
+https://stackoverflow.com/questions/46052711/extend-jenkins-image-to-install-maven
+https://www.baeldung.com/maven-goals-phases
+https://www.digitalocean.com/community/tutorials/maven-build-lifecycle-phases-goals
+https://www.topzenith.com/2020/07/http-status-404-not-found-docker-tomcat-image.html
+
+ROOT USER IN DOCKER CONTAINER
+docker exec -it -u root ad9bfa54174e bash
+
+curl -fsSL https://get.docker.com | sh
+service docker start
+
+apt update && apt upgrade
+apt install vim
+apt install sudo
+ whereis git
+  mv apache-maven-3.9.0 maven
+  
+  cd ~ - root directory
+  vim ~/.profile
+  
+  tar -xvzf <tar file>
+  find / -name context.xml
+  
+  
+  for tomcat to get into manager
+  find context.xml and comment out localhost settings
+  
+  
+  goto gredential manager
+  delete github credentials
+  
+  
+  apt install net-tools
+  
+  
+Ethernet adapter vEthernet (WSL):
+
+   Connection-specific DNS Suffix  . :
+   Link-local IPv6 Address . . . . . : fe80::379:43da:366:673%70
+   IPv4 Address. . . . . . . . . . . : 172.29.64.1
+   Subnet Mask . . . . . . . . . . . : 255.255.240.0
+   Default Gateway . . . . . . . . . :
+
+C:\valaxy\hello-world>
+
+Poll SCM
+minutes,hours,day,day of nonth,day of week
+*****
+
+
+Build docker images
+Create Dockerfile
+docker build -t mytomcat .
+
+
+cat etc/group
+
+
+https://www.simplilearn.com/tutorials/docker-tutorial/how-to-install-docker-on-ubuntu
+useradd dockeradmin
+root@d0e270f755e3:/etc# id dockeradmin
+uid=1000(dockeradmin) gid=1000(dockeradmin) groups=1000(dockeradmin)
+root@d0e270f755e3:/etc# usermod -aG docker dockeradmin
+
+on ec2
+yum install docker -y
+change host name to docker
+vi /etc/hostname
+
+on ec2
+[root@ip-172-31-7-113 ~]# service docker start
+Redirecting to /bin/systemctl start docker.service
+[root@ip-172-31-7-113 ~]# service docker status
+Redirecting to /bin/systemctl status docker.service
+
+ [root@dockerhost ~]# useradd dockeradmin
+[root@dockerhost ~]# passwd dockeradmin
+Changing password for user dockeradmin.
+New password:
+BAD PASSWORD: The password contains the user name in some form
+Retype new password:
+passwd: all authentication tokens updated successfully.
+[root@dockerhost ~]#
+add dockeradmin to docker group
+ usermod -aG docker dockeradmin
+
+Allow password authentication
+ vi /etc/ssh/sshd_config
+  service sshd reload
+   then go to jenkins and configure
+     you can either configure with password 
+   -OR-	 
+ login to dockeradmin
+  sudo su - dockeradmin
+  generate key
+  ssh-keygen
+  
+  rm -rf home - force removal
+ 
+
+
+[dockeradmin@dockerhost ~]$ exit
+logout
+
+[root@dockerhost ~]# pwd
+/root
+[root@dockerhost ~]# cd /opt
+[root@dockerhost opt]# mkdir docker
+[root@dockerhost opt]# chown -R dockeradmin:dockeradmin docker
+[root@dockerhost opt]#
+[root@dockerhost opt]#
+
+instead of copying webapp.war file to 
+[root@dockerhost docker]# su - dockeradmin
+Last login: Fri Mar  3 18:15:43 UTC 2023 on pts/0
+[dockeradmin@dockerhost ~]$ ls
+webapp.war
+copy to /opt/docker under root
+
+jenkins
+//opt/docker
+
+move Dockerfile from root to opt/docker/
+give ownership to dockeradmin
+
+[root@dockerhost docker]# chown -R dockeradmin:dockeradmin /opt/docker
+[root@dockerhost docker]# ls -l
+total 4
+-rw-r--r-- 1 dockeradmin dockeradmin 88 Mar  3 16:58 Dockerfile
+[root@dockerhost docker]#
+
+
+docker container prune
+docker images prune -a
+
+root@c14788ff7296:~# sudo usermod -a -G docker jenkins
+root@c14788ff7296:~# id jenkins
+uid=1000(jenkins) gid=1000(jenkins) groups=1000(jenkins),999(docker)
+root@c14788ff7296:~# chmod 666 /var/run/docker.sock
+
+ sudo chown jenkins:docker /var/run/docker.sock
+ 
+ 
+ https://stackoverflow.com/questions/52402531/docker-is-not-running-failed
+ docker run -d -v /var/run/docker.sock:/var/run/docker.sock --name myjenkins -p 8083:8080  jenkins/jenkins
+ 
+ docker run -d --name mycustomjenkins -p 8088:8080 -v jenkins_home:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock jenkins/jenkins
+ 
+ 
+ INSTALL DOCKER NOW
+ curl -sSL https://get.docker.com/ | sudo sh
+ chmod 777 /var/run/docker.sock
