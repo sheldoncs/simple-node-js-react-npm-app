@@ -1,31 +1,37 @@
 pipeline {
-    agent {
-        docker {
+  agent {
+        any {
             image 'node:6-alpine'
             args '-p 3000:3000'
         }
+  }
+  tools {nodejs "nodejs"}
+  stages {
+    stage('Install Dependencies') {
+      steps {
+        git 'https://github.com/sheldoncs/simple-node-js-react-npm-app.git'
+        sh 'npm install'
+      }
     }
-     environment {
-            CI = 'true'
-        }
-    stages {
-        stage('Build') {
-            steps {
-                sh 'npm install'
+    stage('Build') {
+        steps {
+            withCredentials([usernamePassword(credentialsId: 'dockercreds', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+             sh "docker login --username 'sheldoncs' --password 'Kentish@48'"
+            //  sh "echo $PASS | docker login -u $USER -p $PASS" 
+             sh 'docker build -t sheldoncs/sample-react-app .'
+             sh 'docker push sheldoncs/sample-react-app'
             }
         }
-        stage('Test') {
-                    steps {
-                        sh './jenkins/scripts/test.sh'
-                    }
-                }
-                stage('Deliver') {
-                            steps {
-                                sh './jenkins/scripts/deliver.sh'
-                                input message: 'Finished using the web site? (Click "Proceed" to continue)'
-                                sh './jenkins/scripts/kill.sh'
-                            }
-                        }
-
     }
+    stage('Deploy') {
+        steps { 
+          echo 'deploy'
+        }
+    }
+  }
+  post {
+    always {
+      sh 'docker logout'
+    }
+  }
 }
