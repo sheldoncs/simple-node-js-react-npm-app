@@ -1,0 +1,68 @@
+mvn azure-webapp:config  
+mvn clean package  
+mvn clean install - build new jar
+mvn azure-webapp:deploy  
+
+pom.xml
+set 
+<pricingTier>F1</pricingTier>  
+
+getting  logs on desktop
+az webapp log tail --name hello-world-rest-api-sheldon  --resource-group hello-world-rest-api-rg
+
+
+docker run -d -p 3305:3306 -e MYSQL_ROOT_PASSWORD=dummy_password -e MYSQL_DATABASE=todos -e MYSQL_USER=todos-user -e MYSQL_PASSWORD=dummytodos mysql:5.7
+
+Azure MySql PWD
+todosusername
+Kentish@48
+
+
+RDS_HOSTNAME   - mysql-sheldon-server.mysql.database.azure.com
+RDS_PORT       - 3306
+RDS_DB_NAME    - todos
+mvn clean install
+mvn azure-webapp:config
+mvn azure-webapp:deploy
+
+RDS_USERNAME   - sheldonadmin
+RDS_PASSWORD   - Kentish@48
+
+Create in App Service
+
+connect to database via bash
+mysql --host admin-mysql-server.mysql.database.azure.com --user todosusername -p
+show databases
+create database todos
+
+Connect to azure mysql db from local PC
+mysqlsh mysql-sheldon-server.mysql.database.azure.com --name sheldonadmin
+
+Create azure mysql databse using azure cli
+az extension add --name db-up
+
+
+upload react to azureaz webapp up --name frontend-full-stack-todos (mk sure you run the build first)
+--plan ServicePland38f6983-da0b-45ff --resource-group rest-api-full-stack-frontend-rg --location westeurope
+
+
+Pull DOcker Image from Azure
+1. create docker image
+2. push to docker
+3  Create Resource group
+   az group create --name container-resource-group --location westeurope
+4. Create app service plan as part of the resource group
+   az appservice plan create --name container-service-plan --resource-group container-resource-group --sku P1v2 --is-linux 
+5. Create webApp
+   az webapp create --resource-group container-resource-group --plan container-service-plan --name todo-rest-api-h2-sheldon --deployment-container-image-name sheldoncs/todo-rest-api-h2:1.0.0.RELEASE 
+
+
+docker run --detach --env MYSQL_ROOT_PASSWORD=dummypassword --env MYSQL_USER=todos-user --env MYSQL_PASSWORD=dummytodos --env MYSQL_DATABASE=todos --name mysql --publish 3306:3306 mysql:5.7
+
+docker run --name todos-api --publish 5000:5000 --link mysql:mysql in28min/todo-rest-api-mysql:1.0.0.RELEASE
+
+
+az webapp create --resource-group docker-compose-resource-group --plan docker-compose-service-plan --name todo-rest-api-mysql-docker-compose --multicontainer-config-type compose --multicontainer-config-file docker-compose.yaml
+
+delete resource group 
+az group delete --name container-resource-group --yes
