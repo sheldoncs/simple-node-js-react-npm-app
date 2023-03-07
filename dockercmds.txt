@@ -155,3 +155,5 @@ root@c14788ff7296:~# chmod 666 /var/run/docker.sock
  INSTALL DOCKER NOW
  curl -sSL https://get.docker.com/ | sudo sh
  chmod 777 /var/run/docker.sock
+
+test
