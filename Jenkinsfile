@@ -18,14 +18,17 @@ pipeline {
             withCredentials([usernamePassword(credentialsId: 'dockercreds', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
              sh "docker login --username 'sheldoncs' --password 'Kentish@48'"
             //  sh "echo $PASS | docker login -u $USER -p $PASS" 
-             sh 'docker build -t sheldoncs/sample-react-app .'
-             sh 'docker push sheldoncs/sample-react-app'
+             sh 'docker build -t sheldoncs/sample-react-app:release-1.0 .'
+             sh 'docker push sheldoncs/sample-react-app:release-1.0'
             }
         }
     }
     stage('Deploy') {
         steps { 
-          echo 'deploy'
+          echo 'echo Deploy to windows environment'
+          node('windows-agent'){
+                bat "\"C:\\valaxy\\test.bat\""
+          }
         }
     }
   }

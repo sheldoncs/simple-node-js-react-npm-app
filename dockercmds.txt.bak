@@ -149,7 +149,7 @@ root@c14788ff7296:~# chmod 666 /var/run/docker.sock
  https://stackoverflow.com/questions/52402531/docker-is-not-running-failed
  docker run -d -v /var/run/docker.sock:/var/run/docker.sock --name myjenkins -p 8083:8080  jenkins/jenkins
  
- docker run -d --name mycustomjenkins -p 8088:8080 -p 50000:50000 -v jenkins_home:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock jenkins/jenkins
+ docker run -d --name mycustomjenkins -p 8088:8080 -v jenkins_home:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock jenkins/jenkins
  
  
  INSTALL DOCKER NOW
@@ -157,19 +157,3 @@ root@c14788ff7296:~# chmod 666 /var/run/docker.sock
  chmod 777 /var/run/docker.sock
 
 test
-
-JNLP SLAVE CONNECTION ISSUE
-had same issue when running jenkins in docker container and adding different host as agent to docker container.
-
-Able to resolve this issue by adding additional port in docker-compose.yml for 50000 : 50000 (mapping host port 50000 to docker jenkins container 50000)
-
-version: '3'
-services:
-jenkins:
-container_name: jenkins
-image: jenkins/docker
-build:
-context: pipeline
-ports:
-- "80:8080" -> for web traffic
-- "50000:50000" --> for agent connection to docker container
